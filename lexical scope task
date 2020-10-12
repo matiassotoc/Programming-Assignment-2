@@ -1,0 +1,28 @@
+## I define the input x as an array, the resolved value "p" as null.
+
+makeCacheMatrix <- function(x = matrix(sample(1:50,16),2,2)) {
+        p <- NULL
+        set <- function(y) {
+                x <<- y
+                p <<- NULL
+        }
+        get <- function() x
+        setmean <- function(mean) p <<- mean
+        getmean <- function() p
+        list(set = set, get = get,
+             setmean = setmean,
+             getmean = getmean)
+}
+
+cachemean <- function(x, ...){
+    ## returns an inverse matrix of x
+        p <- x$getmean()
+        if(!is.null(p)){
+               message("getting cached data")
+               return(p)
+        }
+        data <- x$get()
+        p <- mean(data, ...)
+        x$setmean(p)
+        p
+        }
